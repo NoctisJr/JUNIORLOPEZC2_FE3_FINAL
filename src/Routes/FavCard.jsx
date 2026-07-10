@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-const FavCard = ({ name, username, id }) => {
+const FavCard = ({ name, username, id, onRemove }) => {
   return (
     <div className='card-grid-fav' >
         <div className="fav-card">
@@ -11,6 +11,16 @@ const FavCard = ({ name, username, id }) => {
         
             {/* No debes olvidar que la Card a su vez servira como Link hacia la pagina de detalle */}
             <Link to={`/dentist/${id}`}>Ver detalles</Link>
+
+            {/* Botón para eliminar de favoritos */}
+            <button
+              onClick={() => onRemove(id)}
+              className="favButton"
+              aria-label={`Quitar a ${name} de favoritos`}
+              style={{ marginTop: '10px' }}
+            >
+              Quitar de favoritos 🗑️
+            </button>
         </div>
     </div>
   );

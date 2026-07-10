@@ -1,0 +1,3 @@
+## 2023-11-20 - [A11y/UX Alert Interruption and Icon-only Button Accessibility]
+**Learning:** Using native blocking alerts (`alert()`) for standard interactive features like "adding to favorites" degrades the user experience by blocking the thread. Moreover, icon-only buttons (such as emojis) need clear `aria-label` and `aria-pressed` state attributes to be understandable and state-aware for assistive technologies.
+**Action:** Replace blocking `alert()` popups with inline state-driven visual feedback, and ensure all icon-only buttons have descriptive `aria-label` and `aria-pressed` properties.
