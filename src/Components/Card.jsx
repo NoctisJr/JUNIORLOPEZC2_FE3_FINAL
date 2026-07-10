@@ -1,29 +1,29 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+
 const Card = ({ name, username, id }) => {
-
-  const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
-    
-
+  const [isFavorite, setIsFavorite] = useState(() => {
     const favs = JSON.parse(localStorage.getItem('favDentists')) || [];
+    return favs.some(dentist => dentist.id === id);
+  });
 
-     // Verificar si el dentista ya está en favoritos
-     const isFav = favs.some(dentist => dentist.id === id);
-    if (!isFav) {
-      // Agregar el dentista a la lista de favoritos
+  const handleFavToggle = () => {
+    const favs = JSON.parse(localStorage.getItem('favDentists')) || [];
+    const isFav = favs.some(dentist => dentist.id === id);
+
+    if (isFav) {
+      // Remove from favorites
+      const updatedFavs = favs.filter(dentist => dentist.id !== id);
+      localStorage.setItem('favDentists', JSON.stringify(updatedFavs));
+      setIsFavorite(false);
+    } else {
+      // Add to favorites
       const newFav = { id, name, username };
       favs.push(newFav);
-
-      // Guardar la lista actualizada en localStorage
       localStorage.setItem('favDentists', JSON.stringify(favs));
-      alert(`${name} ha sido añadido a favoritos.`);
-    } else {
-      alert(`${name} ya está en favoritos.`);
+      setIsFavorite(true);
     }
-
-  }
+  };
 
   return (
     <div className="card">
@@ -36,10 +36,14 @@ const Card = ({ name, username, id }) => {
         <Link to={`/dentist/${id}`}>Ver detalles</Link>
 
         {/* Ademas deberan integrar la logica para guardar cada Card en el localStorage */}
-        <button onClick={addFav} className="favButton">🌟</button>   
-
-        
-
+        <button
+          onClick={handleFavToggle}
+          className="favButton"
+          aria-label={isFavorite ? `Quitar a ${name} de favoritos` : `Añadir a ${name} de favoritos`}
+          aria-pressed={isFavorite}
+        >
+          {isFavorite ? "⭐" : "☆"}
+        </button>
     </div>
   );
 };
